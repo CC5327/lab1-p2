@@ -1,7 +1,7 @@
 import socket
 
 # We connect to a (host,port) tuple
-CONNECTION_ADDR = ("127.0.0.1", 5312)
+CONNECTION_ADDR = ("cc5312.xor.cl", 5312)
 response = "test message"
 
 if __name__ == "__main__":
