@@ -1,20 +1,24 @@
 import socket
 
 # We connect to a (host,port) tuple
+import utils
+
 CONNECTION_ADDR = ("cc5312.xor.cl", 5312)
-response = "test message"
 
 if __name__ == "__main__":
-    # Connect to external server
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    print('connecting to {}'.format(CONNECTION_ADDR))
-    sock.connect(CONNECTION_ADDR)
-    # Receive message from outgoing server
-    fd = sock.makefile()
-    print("[Server] \"{}\"".format(fd.readline().strip()))
-    # Send a predefined message
-    sock.sendall(response.encode())
-    print("[Client] \"{}\"".format(response))
-    print("[Server] \"{}\"".format(fd.readline().strip()))
-    sock.close()
-    # Wait for a response and disconnect.
+    sock = utils.create_socket(CONNECTION_ADDR)
+    while True:
+        try:
+
+            # Read a message from standard input
+            response = input("send a message: ")
+            # You need to use encode() method to send a string as bytes.
+            print("[Client] \"{}\"".format(response))
+            resp = utils.send_message(sock, response)
+            print("[Server] \"{}\"".format(resp))
+            # Wait for a response and disconnect.
+        except Exception as e:
+            print(e)
+            print("Closing...")
+            sock.close()
+            break
