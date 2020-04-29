@@ -25,7 +25,7 @@ def create_socket(server):
     """
     Starts a connection to the server
     :param server: tuple of address and port
-    :return: an open socket
+    :return: an input socket and an output file
     """
     # Connect to external server
     sock_input = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -39,7 +39,8 @@ def send_message(input, output, message):
     Sends a message to a server and returns the response
     :param sock: a socket.
     :param message: a string with the message.
-    :return: response.
+    :return: sock_input: a socket to send messages.
+    :return: sock_output: a file used to read messages.
     """
     if message == "":
         return ""
