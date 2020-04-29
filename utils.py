@@ -28,12 +28,13 @@ def create_socket(server):
     :return: an open socket
     """
     # Connect to external server
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sock.connect(server)
-    return sock
+    sock_input = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock_input.connect(server)
+    sock_output = sock_input.makefile(errors="ignore")
+    return sock_input, sock_output
 
 
-def send_message(sock, message):
+def send_message(input, output, message):
     """
     Sends a message to a server and returns the response
     :param sock: a socket.
@@ -42,10 +43,9 @@ def send_message(sock, message):
     """
     if message == "":
         return ""
-    sock.sendall(message.encode())
+    input.sendall(message.encode())
     # Receive message from outgoing server
-    fd = sock.makefile(errors="ignore")
-    resp = fd.readline().strip()
+    resp = output.readline().strip()
     return resp
 
 
